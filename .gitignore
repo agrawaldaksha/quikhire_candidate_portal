@@ -1,0 +1,6 @@
+kairo-frontend/node_modules/
+kairo-frontend/dist/
+kairo-frontend/.env
+kairo-frontend/_kairo_backup/
+kairo-frontend/docs/
+*.md
