@@ -26,6 +26,9 @@ public class CandidateAccount {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(name = "phone")
+    private String phone;
+
     @JsonIgnore
     @Column(nullable = false)
     private String password;
@@ -65,6 +68,8 @@ public class CandidateAccount {
     public void setUsername(String username) { this.username = username; }
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+    public String getPhone() { return phone; }
+    public void setPhone(String v) { this.phone = v; }
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
     public Boolean getEnabled() { return enabled; }
@@ -89,6 +94,7 @@ public class CandidateAccount {
         public Builder candidateId(String v) { a.candidateId = v; return this; }
         public Builder username(String v) { a.username = v; return this; }
         public Builder email(String v) { a.email = v; return this; }
+        public Builder phone(String v) { a.phone = v; return this; }
         public Builder password(String v) { a.password = v; return this; }
         public Builder enabled(Boolean v) { a.enabled = v; return this; }
         public Builder name(String v) { a.name = v; return this; }

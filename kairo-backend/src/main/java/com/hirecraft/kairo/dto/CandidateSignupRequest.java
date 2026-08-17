@@ -17,6 +17,9 @@ public class CandidateSignupRequest {
     @NotBlank @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
+    @NotBlank(message = "Phone number is required")
+    private String phone;
+
     private String name;
     private String source;
 
@@ -30,6 +33,8 @@ public class CandidateSignupRequest {
     public void setEmail(String v) { this.email = v; }
     public String getPassword() { return password; }
     public void setPassword(String v) { this.password = v; }
+    public String getPhone() { return phone; }
+    public void setPhone(String v) { this.phone = v; }
     public String getName() { return name; }
     public void setName(String v) { this.name = v; }
     public String getSource() { return source; }

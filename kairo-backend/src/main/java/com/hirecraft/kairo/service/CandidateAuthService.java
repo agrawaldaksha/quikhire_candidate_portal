@@ -58,6 +58,7 @@ public class CandidateAuthService {
                 .candidateId(candidateId)
                 .username(email)
                 .email(email)
+                .phone(req.getPhone())
                 .password(passwordEncoder.encode(req.getPassword()))
                 .name(req.getName())
                 .enabled(true)
