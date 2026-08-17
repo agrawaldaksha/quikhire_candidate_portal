@@ -48,3 +48,44 @@ export const DASH_INTROS = [
   { who: 'Marcus, Head of Design at Loop', role: 'Senior Product Designer', note: 'Loved your work on design systems and wants to chat this week.', color: '#2f6df6' },
   { who: 'Aisha, CTO at Fyxer', role: 'Founding Design Engineer', note: 'Impressed by your 0→1 shipping. 2-day process, skips applications.', color: '#0ea5e9' },
 ]
+
+// ---- New jobs feed (Jack&Jill-style) ----
+export const NEW_JOBS = [
+  { id: 'j1', co: 'Loop', color: '#2f6df6', title: 'Senior Product Designer', loc: 'Remote (EU)', comp: '€85–105k', tags: ['Design Systems', 'Figma', 'B2B'], score: 96, posted: '2h ago', why: 'Matches your design-systems depth and remote preference.' },
+  { id: 'j2', co: 'Fyxer', color: '#0ea5e9', title: 'Founding Design Engineer', loc: 'London / Hybrid', comp: '£90–120k', tags: ['0→1', 'React', 'AI'], score: 93, posted: '5h ago', why: 'Early-stage 0→1 role — you shine at shipping fast.' },
+  { id: 'j3', co: 'Marloo', color: '#14b8a6', title: 'Lead UX Designer', loc: 'Remote', comp: '$110–140k', tags: ['Fintech', 'Leadership'], score: 90, posted: '1d ago', why: 'Leadership scope with the fintech domain you asked for.' },
+  { id: 'j4', co: 'Vanta', color: '#f59e0b', title: 'Product Designer II', loc: 'SF / Hybrid', comp: '$130–160k', tags: ['Security', 'Growth'], score: 88, posted: '1d ago', why: 'Strong comp band and a growth-stage security product.' },
+  { id: 'j5', co: 'Ridge', color: '#7c3aed', title: 'Design Lead', loc: 'Remote (US)', comp: '$140–170k', tags: ['Design Ops', 'Mentoring'], score: 85, posted: '2d ago', why: 'Mentoring-heavy role aligned with your priorities.' },
+]
+
+// ---- Coaching hub (tabbed) ----
+export const COACHING = {
+  General: [
+    { t: 'Career story workshop', d: 'Shape a crisp narrative that ties your roles into one clear arc.', mins: 20, ic: '🎯' },
+    { t: 'Strengths & gaps review', d: 'Kai maps your strongest signals and where to invest next.', mins: 15, ic: '📊' },
+    { t: 'Weekly search plan', d: 'A focused plan: who to talk to, what to apply for, this week.', mins: 10, ic: '🗓' },
+  ],
+  Product: [
+    { t: 'Product sense drill', d: 'Practice product-thinking prompts with structured feedback.', mins: 25, ic: '🧩' },
+    { t: 'Metrics & tradeoffs', d: 'Sharpen how you reason about metrics, north stars and tradeoffs.', mins: 20, ic: '📈' },
+    { t: 'PM case walkthrough', d: 'Work a realistic case end-to-end with Kai coaching you.', mins: 30, ic: '🗂' },
+  ],
+  Salary: [
+    { t: 'Benchmark your range', d: 'See a live P50–P90 band for your role, level and market.', mins: 10, ic: '💰' },
+    { t: 'Negotiation script', d: 'A word-for-word plan for the comp conversation.', mins: 15, ic: '🤝' },
+    { t: 'Competing-offer play', d: 'How to handle multiple offers without burning bridges.', mins: 15, ic: '♟' },
+  ],
+  Consulting: [
+    { t: 'Case interview basics', d: 'Frameworks, structuring and the MECE habit — fast.', mins: 25, ic: '📐' },
+    { t: 'Market sizing reps', d: 'Estimation drills with clean, defensible logic.', mins: 20, ic: '🔢' },
+    { t: 'Fit / PEI stories', d: 'Build leadership stories that land in consulting interviews.', mins: 20, ic: '💬' },
+  ],
+  'Mock interview': [
+    { t: 'Behavioural mock', d: 'A full behavioural round with tailored, honest feedback.', mins: 30, ic: '🎤' },
+    { t: 'Technical mock', d: 'Role-specific technical questions and a scorecard.', mins: 40, ic: '⌨' },
+    { t: 'Rapid-fire round', d: 'Ten quick prompts to warm up before the real thing.', mins: 15, ic: '⚡' },
+  ],
+  Custom: [
+    { t: 'Bring your own goal', d: 'Tell Kai what you want to work on and it builds a session.', mins: 20, ic: '✨' },
+  ],
+}

@@ -66,10 +66,13 @@ public class ResumeParseService {
         return m.find() ? m.group().trim() : null;
     }
 
+    // Mirrors QuikHire DataSanitizer.sanitizePhone: strip to digits (keep a leading +), validate length.
     private String cleanPhone(String raw) {
         if (raw == null) return null;
-        String digits = raw.replaceAll("[^\\d+]", "");
-        return digits.length() >= 8 && digits.length() <= 16 ? raw.trim() : null;
+        boolean plus = raw.trim().startsWith("+");
+        String digits = raw.replaceAll("[^0-9]", "");
+        if (digits.length() < 10 || digits.length() > 15) return null;
+        return plus ? "+" + digits : digits;
     }
 
     private String guessName(String[] lines, String email) {
