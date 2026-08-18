@@ -4,7 +4,7 @@ import { useApp } from '../context/AppContext.jsx'
 import Logo from '../components/Logo.jsx'
 import KaiDock from '../components/KaiDock.jsx'
 import { benchmark } from '../screening/engine.js'
-import { DASH_INTROS, NEW_JOBS, COACHING } from '../data/mock.js'
+import { DASH_INTROS, NEW_JOBS, COACHING, LEARNING_VIDEOS } from '../data/mock.js'
 
 const ROLE_WORD = {
   Engineering: 'Engineer', Product: 'Product Manager', Design: 'Designer',
@@ -103,7 +103,7 @@ export default function Dashboard() {
   // Profile is intentionally NOT in the sidebar — it's reached only via the top-right name chip.
   const NAV = [
     ['Dashboard', '▦'], ['New jobs', '◎'], ['Tracked jobs', '≣'], ['Coaching', '◈'],
-    ['Assignments', '✎'], ['Settings', '⚙'],
+    ['Assignments', '✎'], ['Learning', '▷'], ['Settings', '⚙'],
   ]
 
   return (
@@ -152,6 +152,9 @@ export default function Dashboard() {
         )}
         {tab === 'Assignments' && (
           <Assignments profile={profile} done={assignDone} setDone={setAssignDone} notice={notice} goProfile={goProfile} saveProfile={saveProfile} />
+        )}
+        {tab === 'Learning' && (
+          <Learning profile={profile} notice={notice} goProfile={goProfile} />
         )}
         {tab === 'Profile' && (
           <ProfileEditor key={profile.candidateId || 'me'} profile={profile} saveProfile={saveProfile} saveMemory={saveMemory} notice={notice} titleFor={titleFor} />
@@ -597,6 +600,85 @@ function AssignmentRunner({ skill, onExit, onComplete }) {
           {last && answeredCount < qs.length && <div className="assign-hint">Answer all {qs.length} questions to complete this assignment ({qs.length - answeredCount} left).</div>}
         </div>
       </div>
+    </>
+  )
+}
+
+// ---------- #11 Learning (video tutorials, mirrors Assignments) ----------
+const videosFor = (skill) => LEARNING_VIDEOS[String(skill).toLowerCase()] || []
+// a tutorial can point at a full blob URL (v.url) or a local file in public/learning (v.file)
+const srcOf = (v) => (v && v.url) ? v.url : `/learning/${v?.file || ''}`
+
+function Learning({ profile, notice, goProfile }) {
+  const skills = Array.isArray(profile.skills) ? profile.skills : []
+  const [playing, setPlaying] = useState(null) // { title, file }
+  const withVideos = skills.filter((s) => videosFor(s).length)
+  const totalVideos = skills.reduce((n, s) => n + videosFor(s).length, 0)
+
+  return (
+    <>
+      <div className="dash-head">
+        <div><h1>Learning</h1><p>Short video tutorials for your skills — one-shot walkthroughs and topic-specific explainers from Kai.</p></div>
+        <span className="pill-mint pill">● {totalVideos} video{totalVideos === 1 ? '' : 's'}</span>
+      </div>
+
+      {skills.length === 0 ? (
+        <div className="card"><div className="card-b empty-b">
+          <div style={{ fontSize: 34, marginBottom: 10 }}>▷</div>
+          <h3 style={{ marginBottom: 8 }}>Add your skills first</h3>
+          <p style={{ color: 'var(--muted)', maxWidth: 380, margin: '0 auto 16px' }}>List your skills in your profile and Kai will line up matching video tutorials for each one.</p>
+          <button className="btn btn-primary" onClick={goProfile}>Go to profile →</button>
+        </div></div>
+      ) : (
+        <>
+          <p className="assign-note">Tutorials are matched to your skills from Kai’s video library. As new videos are added they’ll appear under the matching skill automatically.</p>
+          <div className="learn-grid">
+            {skills.map((s) => {
+              const vids = videosFor(s)
+              return (
+                <div className={`learn-card ${vids.length ? '' : 'soon'}`} key={s}>
+                  <div className="learn-top">
+                    <div className="learn-skill">{s}</div>
+                    <span className="learn-count">{vids.length ? `${vids.length} video${vids.length === 1 ? '' : 's'}` : 'coming soon'}</span>
+                  </div>
+                  {vids.length ? (
+                    <div className="learn-vids">
+                      {vids.map((v) => (
+                        <button className="learn-vid" key={v.title} onClick={() => setPlaying(v)}>
+                          <span className="learn-vid-play">▶</span>
+                          <span className="learn-vid-meta">
+                            <span className="learn-vid-title">{v.title}</span>
+                            <span className="learn-vid-sub">{v.kind || 'Tutorial'}{v.len ? ` · ${v.len}` : ''}</span>
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="learn-soon">Kai is preparing a tutorial for this skill.</div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+          {withVideos.length === 0 && (
+            <p className="rate-hint" style={{ marginTop: 16 }}>No videos are mapped yet — once Kai’s tutorial library is connected, they’ll show up here under the matching skill.</p>
+          )}
+        </>
+      )}
+
+      {playing && (
+        <div className="learn-modal" onClick={() => setPlaying(null)}>
+          <div className="learn-modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="learn-modal-h">
+              <span>{playing.title}</span>
+              <button className="learn-modal-x" onClick={() => setPlaying(null)} aria-label="Close">×</button>
+            </div>
+            <video className="learn-player" src={srcOf(playing)} controls autoPlay
+              onError={() => notice('That video isn’t available yet — check its URL / file')} />
+            <div className="learn-modal-sub">{playing.kind || 'Tutorial'}{playing.len ? ` · ${playing.len}` : ''}</div>
+          </div>
+        </div>
+      )}
     </>
   )
 }

@@ -4,3 +4,4 @@ kairo-frontend/.env
 kairo-frontend/_kairo_backup/
 kairo-frontend/docs/
 *.md
+kairo-frontend/public/learning/
