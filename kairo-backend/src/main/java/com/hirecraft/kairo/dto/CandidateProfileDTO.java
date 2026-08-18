@@ -16,6 +16,7 @@ public class CandidateProfileDTO {
     private List<String> preferredLocations;
     private List<String> preferredRoles;
     private List<String> skills;
+    private List<String> skillRatings;
     private List<String> priorities;
     private String seniority;
     private String workMode;
@@ -42,6 +43,8 @@ public class CandidateProfileDTO {
     public void setPreferredRoles(List<String> v) { this.preferredRoles = v; }
     public List<String> getSkills() { return skills; }
     public void setSkills(List<String> v) { this.skills = v; }
+    public List<String> getSkillRatings() { return skillRatings; }
+    public void setSkillRatings(List<String> v) { this.skillRatings = v; }
     public List<String> getPriorities() { return priorities; }
     public void setPriorities(List<String> v) { this.priorities = v; }
     public String getSeniority() { return seniority; }
@@ -69,6 +72,7 @@ public class CandidateProfileDTO {
         public Builder preferredLocations(List<String> v) { d.preferredLocations = v; return this; }
         public Builder preferredRoles(List<String> v) { d.preferredRoles = v; return this; }
         public Builder skills(List<String> v) { d.skills = v; return this; }
+        public Builder skillRatings(List<String> v) { d.skillRatings = v; return this; }
         public Builder priorities(List<String> v) { d.priorities = v; return this; }
         public Builder seniority(String v) { d.seniority = v; return this; }
         public Builder workMode(String v) { d.workMode = v; return this; }

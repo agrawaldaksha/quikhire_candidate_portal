@@ -40,6 +40,10 @@ public class CandidateProfile {
     private List<String> skills;
 
     @JdbcTypeCode(SqlTypes.ARRAY)
+    @Column(name = "skill_ratings", columnDefinition = "text[]")
+    private List<String> skillRatings;
+
+    @JdbcTypeCode(SqlTypes.ARRAY)
     @Column(name = "priorities", columnDefinition = "text[]")
     private List<String> priorities;
 
@@ -81,6 +85,8 @@ public class CandidateProfile {
     public void setPreferredRoles(List<String> v) { this.preferredRoles = v; }
     public List<String> getSkills() { return skills; }
     public void setSkills(List<String> v) { this.skills = v; }
+    public List<String> getSkillRatings() { return skillRatings; }
+    public void setSkillRatings(List<String> v) { this.skillRatings = v; }
     public List<String> getPriorities() { return priorities; }
     public void setPriorities(List<String> v) { this.priorities = v; }
     public String getSeniority() { return seniority; }
@@ -109,6 +115,7 @@ public class CandidateProfile {
         public Builder preferredLocations(List<String> v) { p.preferredLocations = v; return this; }
         public Builder preferredRoles(List<String> v) { p.preferredRoles = v; return this; }
         public Builder skills(List<String> v) { p.skills = v; return this; }
+        public Builder skillRatings(List<String> v) { p.skillRatings = v; return this; }
         public Builder priorities(List<String> v) { p.priorities = v; return this; }
         public Builder seniority(String v) { p.seniority = v; return this; }
         public Builder workMode(String v) { p.workMode = v; return this; }

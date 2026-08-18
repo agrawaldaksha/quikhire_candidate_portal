@@ -21,7 +21,7 @@ export default function Nav() {
           <a href="#recruiters">For recruiters</a>
         </nav>
         <div className="nav-right">
-          <Link to="/resume-builder" className="nav-links" style={{ fontWeight: 500 }}>
+          <Link to="/resume-builder" state={{ guest: true }} className="nav-links" style={{ fontWeight: 500 }}>
             Resume Builder
           </Link>
           <Link to="/login" className="nav-links" style={{ fontWeight: 500 }}>

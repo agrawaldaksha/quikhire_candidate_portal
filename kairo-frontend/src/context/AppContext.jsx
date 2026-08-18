@@ -12,7 +12,7 @@ const emptyProfile = {
   candidateId: '', name: '', email: '', headline: '', location: '',
   workMode: '', role: '', focus: '', experience: '', seniority: '',
   skills: [], salaryTarget: null, priorities: [], availability: '',
-  openTo: '', resumeName: '', source: '',
+  openTo: '', resumeName: '', source: '', skillRatings: {},
 }
 
 function fromDto(dto = {}) {
@@ -26,6 +26,7 @@ function fromDto(dto = {}) {
     workMode: dto.workMode || '',
     seniority: dto.seniority || '',
     skills: Array.isArray(dto.skills) ? dto.skills : [],
+    skillRatings: parseRatings(dto.skillRatings),
     priorities: Array.isArray(dto.priorities) ? dto.priorities : [],
     salaryTarget: dto.salaryTarget ?? null,
     availability: dto.availability || '',
@@ -39,6 +40,21 @@ function compToInt(v) {
   if (v == null) return null
   const m = String(v).replace(/,/g, '').match(/\d+/)
   return m ? parseInt(m[0], 10) : null
+}
+
+// skill ratings travel over the wire as a text[] of "Skill::n" entries
+function parseRatings(arr) {
+  const out = {}
+  if (Array.isArray(arr)) arr.forEach((e) => {
+    const i = String(e).lastIndexOf('::')
+    if (i > 0) { const n = parseInt(e.slice(i + 2), 10); if (n >= 1 && n <= 5) out[e.slice(0, i)] = n }
+  })
+  return out
+}
+function serializeRatings(obj) {
+  if (!obj || typeof obj !== 'object') return null
+  const arr = Object.entries(obj).filter(([, n]) => n >= 1 && n <= 5).map(([k, n]) => `${k}::${n}`)
+  return arr.length ? arr : null
 }
 
 function buildSummary(fp) {
@@ -144,6 +160,7 @@ export function AppProvider({ children }) {
       preferredLocations: p.location ? [p.location] : null,
       preferredRoles: p.role ? [p.role] : null,
       skills: Array.isArray(p.skills) && p.skills.length ? p.skills : null,
+      skillRatings: serializeRatings(p.skillRatings),
       priorities: Array.isArray(p.priorities) && p.priorities.length ? p.priorities : null,
       yearsOfExperience: p.experience && !isNaN(parseFloat(p.experience)) ? parseFloat(p.experience) : null,
     }

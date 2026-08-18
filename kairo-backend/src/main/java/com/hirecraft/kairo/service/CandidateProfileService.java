@@ -41,6 +41,7 @@ public class CandidateProfileService {
         if (dto.getPreferredLocations() != null) p.setPreferredLocations(dto.getPreferredLocations());
         if (dto.getPreferredRoles() != null) p.setPreferredRoles(dto.getPreferredRoles());
         if (dto.getSkills() != null) p.setSkills(dto.getSkills());
+        if (dto.getSkillRatings() != null) p.setSkillRatings(dto.getSkillRatings());
         if (dto.getPriorities() != null) p.setPriorities(dto.getPriorities());
         if (dto.getSeniority() != null) p.setSeniority(dto.getSeniority());
         if (dto.getWorkMode() != null) p.setWorkMode(dto.getWorkMode());
@@ -179,6 +180,7 @@ public class CandidateProfileService {
                 .preferredLocations(p.getPreferredLocations())
                 .preferredRoles(p.getPreferredRoles())
                 .skills(p.getSkills())
+                .skillRatings(p.getSkillRatings())
                 .priorities(p.getPriorities())
                 .seniority(p.getSeniority())
                 .workMode(p.getWorkMode())

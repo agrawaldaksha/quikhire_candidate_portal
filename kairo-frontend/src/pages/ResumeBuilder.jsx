@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useApp } from '../context/AppContext.jsx'
 import Logo from '../components/Logo.jsx'
 
@@ -18,7 +18,7 @@ const ISD = [
   ['🇿🇦', '+27', 'South Africa'], ['🇧🇷', '+55', 'Brazil'],
 ]
 const ISD_COUNTRY = ISD.reduce((o, [, code, country]) => ((o[code] = country), o), {})
-const ISD_OPTS = ISD.map(([flag, code, country]) => ({ value: code, label: `${flag}  ${code.trim()}  ${country}` }))
+const ISD_OPTS = ISD.map(([flag, code, country]) => ({ value: code, label: `${flag}  ${code.trim()}  ${country}`, short: `${flag} ${code.trim()}` }))
 const COUNTRIES = [...new Set(ISD.map((x) => x[2])), 'Other']
 const COUNTRY_OPTS = COUNTRIES.map((c) => ({ value: c, label: c }))
 
@@ -75,7 +75,7 @@ function Select({ value, onChange, options, placeholder, style }) {
   return (
     <div className="rb-dd" ref={ref} style={style}>
       <button type="button" className="input rb-dd-trigger" onClick={() => setOpen((o) => !o)}>
-        <span className="rb-dd-val">{cur ? cur.label : (placeholder || 'Select…')}</span><span className="rb-dd-caret">▾</span>
+        <span className="rb-dd-val">{cur ? (cur.short || cur.label) : (placeholder || 'Select…')}</span><span className="rb-dd-caret">▾</span>
       </button>
       {open && (
         <div className="rb-dd-pop">
@@ -125,7 +125,7 @@ function SkillPicker({ selected, onAdd }) {
         <span className="rb-dd-val" style={{ color: 'var(--indigo,#2f6df6)', fontWeight: 600 }}>+ Add a skill</span><span className="rb-dd-caret">▾</span>
       </button>
       {open && (
-        <div className="rb-dd-pop rb-skill-pop">
+        <div className="rb-skill-panel">
           <input className="input rb-skill-search" placeholder="Search skills…" value={q} onChange={(e) => setQ(e.target.value)} autoFocus />
           <div className="rb-skill-scroll">
             {SKILL_CATS.map((cat) => {
@@ -204,7 +204,10 @@ function Section({ id, title, open, onToggle, children }) {
 export default function ResumeBuilder() {
   const nav = useNavigate()
   const { profile, authed } = useApp()
-  const secure = !authed // landing-page visitor (not logged in)
+  const loc = useLocation()
+  // Guest = reached the builder from a public entry (landing / top nav), OR simply not logged in.
+  // Public links pass { state: { guest: true } } so a lingering token can't unlock downloads.
+  const secure = loc.state?.guest === true || !authed
   const [accent, setAccent] = useState('#2f6df6')
   const [openSection, setOpenSection] = useState('personal')
   const [dismissed, setDismissed] = useState(false)
@@ -300,7 +303,7 @@ export default function ResumeBuilder() {
   const toggle = (id) => setOpenSection((cur) => (cur === id ? '' : id))
 
   return (
-    <div className="rb-shell">
+    <div className={`rb-shell ${secure ? 'rb-secure' : ''}`}>
       <div className="rb-top">
         <div className="rb-top-l">
           <button className="btn btn-ghost" onClick={() => nav(-1)}>← Back</button>
@@ -327,14 +330,12 @@ export default function ResumeBuilder() {
               <div className="field"><label>Full name *</label><input className="input" value={data.fullName} onChange={set('fullName')} /></div>
               <div className="field"><label>Professional title</label><Combo value={data.title} onChange={(v) => setField('title', v)} options={TITLES} placeholder="Pick or type…" /></div>
             </div>
-            <div className="row2">
-              <div className="field"><label>Email *</label><input className="input" type="email" value={data.email} onChange={set('email')} /></div>
-              <div className="field">
-                <label>Phone *</label>
-                <div className="rb-phone">
-                  <Select value={data.isd} onChange={(code) => setData((d) => ({ ...d, isd: code, country: ISD_COUNTRY[code] || d.country }))} options={ISD_OPTS} style={{ width: 132, flex: '0 0 auto' }} />
-                  <input className="input" type="tel" placeholder="98765 43210" value={data.phone} onChange={set('phone')} />
-                </div>
+            <div className="field"><label>Email *</label><input className="input" type="email" value={data.email} onChange={set('email')} /></div>
+            <div className="field">
+              <label>Phone *</label>
+              <div className="rb-phone">
+                <Select value={data.isd} onChange={(code) => setData((d) => ({ ...d, isd: code, country: ISD_COUNTRY[code] || d.country }))} options={ISD_OPTS} style={{ width: 118, flex: '0 0 auto' }} />
+                <input className="input rb-phone-num" type="tel" placeholder="98765 43210" value={data.phone} onChange={set('phone')} />
               </div>
             </div>
             <div className="row2">

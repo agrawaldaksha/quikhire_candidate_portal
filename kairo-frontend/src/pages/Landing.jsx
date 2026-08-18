@@ -31,7 +31,7 @@ export default function Landing() {
             <div className="hero-cta">
               <Link to="/login" className="btn btn-primary btn-lg">Start with Kai — it’s free</Link>
               <a href="#how" className="btn btn-ghost btn-lg">See how it works</a>
-              <Link to="/resume-builder" className="btn btn-ghost btn-lg">Resume Builder</Link>
+              <Link to="/resume-builder" state={{ guest: true }} className="btn btn-ghost btn-lg">Resume Builder</Link>
             </div>
             <div className="hero-trust">
               <span className="t"><span className="dot" /> First matches in 10 minutes</span>
