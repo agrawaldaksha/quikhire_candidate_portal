@@ -100,9 +100,10 @@ export default function Dashboard() {
 
   const goProfile = () => setTab('Profile')
 
+  // Profile is intentionally NOT in the sidebar — it's reached only via the top-right name chip.
   const NAV = [
     ['Dashboard', '▦'], ['New jobs', '◎'], ['Tracked jobs', '≣'], ['Coaching', '◈'],
-    ['Assignments', '✎'], ['Profile', '☺'], ['Settings', '⚙'],
+    ['Assignments', '✎'], ['Settings', '⚙'],
   ]
 
   return (
